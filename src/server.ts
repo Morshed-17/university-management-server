@@ -11,7 +11,6 @@ async function main() {
   } catch (error) {
     console.error(error);
   }
-  z;
 }
 
 main();
