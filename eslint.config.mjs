@@ -1,15 +1,23 @@
 import globals from 'globals';
 import pluginJs from '@eslint/js';
 import tseslint from 'typescript-eslint';
+import someConfig from 'some-other-config-you-use';
+import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default [
-  { languageOptions: { globals: {
-    ...globals.node,
-    process: "readonly"
-  } } },
+  someConfig,
+  eslintConfigPrettier,
+  {
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        process: 'readonly',
+      },
+    },
+  },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
-  
+
   {
     rules: {
       'no-console': 'warn',
