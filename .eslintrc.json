@@ -10,6 +10,16 @@
     "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
+  "rules": {
+    "no-undef": "error",
+    "no-unused-expressions": "error",
+    "no-unused-vars": "error",
+    "no-console": "warn",
+    "prefer-const": "error"
+  },
+  "globals": {
+    "process": "readonly"
+  },
 
   "env": {
     "browser": true,
