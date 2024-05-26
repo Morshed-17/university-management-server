@@ -9,7 +9,6 @@ import {
   StudentModel,
 } from './student.interface';
 
-
 const userNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
@@ -105,7 +104,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       type: Schema.Types.ObjectId,
       required: true,
       unique: true,
-      ref: 'User'
+      ref: 'User',
     },
     name: {
       type: userNameSchema,
@@ -166,6 +165,10 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     profileImg: {
       type: String,
       trim: true,
+    },
+    addmissionSemester: {
+      type: Schema.Types.ObjectId,
+      ref: 'AcademicSemester',
     },
 
     isDeleted: {

@@ -1,11 +1,11 @@
-import { academicSemesterNameCodeMaper } from './academicSemester.constant';
+import { academicSemesterNameCodeMapper } from './academicSemester.constant';
 import { TAcademicSemester } from './academicSemester.interface';
 import { AcademicSemester } from './academicSemester.model';
 
 const createAcademicSemesterIntoDB = async (payLoad: TAcademicSemester) => {
   // semester name --> semester code
 
-  if (academicSemesterNameCodeMaper[payLoad.name] !== payLoad.code) {
+  if (academicSemesterNameCodeMapper[payLoad.name] !== payLoad.code) {
     throw new Error('Invalid Semester Code');
   }
 
@@ -30,7 +30,7 @@ const updateAcademicSemesterIntoDB = async (
   if (
     payload.name &&
     payload.code &&
-    academicSemesterNameCodeMaper[payload.name] !== payload.code
+    academicSemesterNameCodeMapper[payload.name] !== payload.code
   ) {
     throw new Error('Invalid Semester Code');
   }

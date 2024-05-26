@@ -1,19 +1,31 @@
 import config from '../../config';
+import { TAcademicSemester } from '../acamdemicSemester/academicSemester.interface';
+import { AcademicSemester } from '../acamdemicSemester/academicSemester.model';
 import { TStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
 import { TUser } from './user.interface';
 
 import { User } from './user.model';
+import { generateStudentId } from './user.utils';
 
-const createStudentIntoDB = async (password: string, studentData: TStudent) => {
+const createStudentIntoDB = async (password: string, payLoad: TStudent) => {
   // create a user object
   const userData: Partial<TUser> = {};
 
   //   if password is not given, use default password
   userData.password = password || (config.default_pass as string);
+  userData.role = 'student';
+
+  // find academic semester info
+
+  const addmissionSemester = await AcademicSemester.findById(
+    payLoad.addmissionSemester,
+  );
 
   // set manually generated id
-  userData.id = '2030100001';
+  userData.id = await generateStudentId(
+    addmissionSemester as TAcademicSemester,
+  );
   // create a user
   const newUser = await User.create(userData);
 
@@ -21,9 +33,9 @@ const createStudentIntoDB = async (password: string, studentData: TStudent) => {
 
   if (Object.keys(newUser).length) {
     // set id, _id as user
-    studentData.id = newUser.id;
-    studentData.user = newUser._id; // reference _id
-    const newStudent = await Student.create(studentData);
+    payLoad.id = newUser.id;
+    payLoad.user = newUser._id; // reference _id
+    const newStudent = await Student.create(payLoad);
     return newStudent;
   }
 };
