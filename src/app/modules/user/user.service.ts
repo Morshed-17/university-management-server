@@ -1,5 +1,4 @@
 import config from '../../config';
-import { TAcademicSemester } from '../acamdemicSemester/academicSemester.interface';
 import { AcademicSemester } from '../acamdemicSemester/academicSemester.model';
 import { TStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
@@ -23,12 +22,13 @@ const createStudentIntoDB = async (password: string, payLoad: TStudent) => {
   );
 
   // set manually generated id
-  userData.id = await generateStudentId(
-    addmissionSemester as TAcademicSemester,
-  );
+  if (addmissionSemester) {
+    userData.id = await generateStudentId(addmissionSemester);
+  } else {
+    throw new Error('Addmission semester is null');
+  }
   // create a user
   const newUser = await User.create(userData);
-
   // create a student
 
   if (Object.keys(newUser).length) {
