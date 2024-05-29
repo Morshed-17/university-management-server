@@ -1,17 +1,28 @@
-
 import { Student } from './student.model';
 
-
-
 const getAllStudentsFromDB = async () => {
-  const result = await Student.find();
+  const result = await Student.find()
+    .populate('addmissionSemester')
+    .populate({
+      path: 'academicDepartment',
+      populate: {
+        path: 'academicFaculty',
+      },
+    });
+
   return result;
 };
 
 const getSingleStudentFromDB = async (id: string) => {
   // const result = await Student.findOne({ id });
-  const result = await Student.aggregate([{ $match: { id: id } }]);
-
+  const result = await Student.findById(id)
+    .populate('addmissionSemester')
+    .populate({
+      path: 'academicDepartment',
+      populate: {
+        path: 'academicFaculty',
+      },
+    });
   return result;
 };
 
@@ -21,7 +32,6 @@ const deleteStudentFromDB = async (id: string) => {
 };
 
 export const StudentServices = {
-
   getAllStudentsFromDB,
   getSingleStudentFromDB,
   deleteStudentFromDB,

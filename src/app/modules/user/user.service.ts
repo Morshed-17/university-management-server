@@ -1,4 +1,6 @@
+import httpStatus from 'http-status';
 import config from '../../config';
+import AppError from '../../errors/AppError';
 import { AcademicSemester } from '../acamdemicSemester/academicSemester.model';
 import { TStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
@@ -25,7 +27,7 @@ const createStudentIntoDB = async (password: string, payLoad: TStudent) => {
   if (addmissionSemester) {
     userData.id = await generateStudentId(addmissionSemester);
   } else {
-    throw new Error('Addmission semester is null');
+    throw new AppError(httpStatus.BAD_REQUEST,'Addmission semester is null');
   }
   // create a user
   const newUser = await User.create(userData);
