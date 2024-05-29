@@ -1,8 +1,8 @@
 import { TAcademicFaculty } from './academicFaculty.interface';
 import { AcademicFaculty } from './academicFaculty.model';
 
-const createAcademicFacultyIntoDB = (payLoad: TAcademicFaculty) => {
-  const result = AcademicFaculty.create(payLoad);
+const createAcademicFacultyIntoDB = (payload: TAcademicFaculty) => {
+  const result = AcademicFaculty.create(payload);
   return result;
 };
 const getAllAcademicFacultyFromDB = () => {
@@ -15,9 +15,9 @@ const getSingleAcademicFacultyFromDB = (id: string) => {
 };
 const updateAcademicFacultyIntoDB = (
   id: string,
-  payLoad: Partial<TAcademicFaculty>,
+  payload: Partial<TAcademicFaculty>,
 ) => {
-  const result = AcademicFaculty.findOneAndUpdate({ _id: id }, payLoad, {
+  const result = AcademicFaculty.findOneAndUpdate({ _id: id }, payload, {
     new: true,
   });
   return result;

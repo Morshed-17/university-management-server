@@ -2,13 +2,14 @@ import { Schema, model } from 'mongoose';
 import { TUser } from './user.interface';
 import config from '../../config';
 import bcrypt from 'bcrypt';
+import httpStatus from 'http-status';
+import AppError from '../../errors/AppError';
 
 const userSchema = new Schema<TUser>(
   {
     id: {
       type: String,
       required: true,
-      unique: true
     },
     password: {
       type: String,
@@ -46,6 +47,15 @@ userSchema.pre('save', async function (next) {
     user.password,
     Number(config.bcrypt_salt_round),
   );
+  next();
+});
+
+userSchema.pre('findOneAndUpdate', async function name(next) {
+  const { id } = this.getQuery();
+  const isUserExits = await User.findOne({ id });
+  if (!isUserExits) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'User does not exists');
+  }
   next();
 });
 

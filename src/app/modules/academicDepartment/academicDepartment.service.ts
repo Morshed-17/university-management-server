@@ -1,8 +1,8 @@
 import { TAcademicDepartment } from './academicDepartment.interface';
 import { AcademicDepartment } from './academicDepartment.model';
 
-const createAcademicDepartmentIntoDB = (payLoad: TAcademicDepartment) => {
-  const result = AcademicDepartment.create(payLoad);
+const createAcademicDepartmentIntoDB = (payload: TAcademicDepartment) => {
+  const result = AcademicDepartment.create(payload);
   return result;
 };
 const getAllAcademicDepartmentsFromDB = () => {
@@ -15,9 +15,9 @@ const getSingleAcademicDepartmentFromDB = (id: string) => {
 };
 const updateAcademicDepartmentIntoDB = (
   id: string,
-  payLoad: Partial<TAcademicDepartment>,
+  payload: Partial<TAcademicDepartment>,
 ) => {
-  const result = AcademicDepartment.findOneAndUpdate({ _id: id }, payLoad, {
+  const result = AcademicDepartment.findOneAndUpdate({ _id: id }, payload, {
     new: true,
   });
   return result;

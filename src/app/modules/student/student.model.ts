@@ -8,6 +8,8 @@ import {
   TLocalGuardian,
   StudentModel,
 } from './student.interface';
+import AppError from '../../errors/AppError';
+import httpStatus from 'http-status';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -196,11 +198,19 @@ studentSchema.virtual('fullName').get(function () {
 // query middleware
 
 studentSchema.pre('find', function (next) {
-  this.find({ isDeleted: { $ne: true } });
+   this.find({ isDeleted: { $ne: true } });
   next();
 });
 studentSchema.pre('findOne', function (next) {
-  this.find({ isDeleted: { $ne: true } });
+  this.findOne({ isDeleted: { $ne: true } });
+  next();
+});
+studentSchema.pre('findOneAndUpdate', async function name(next) {
+  const { id } = this.getQuery();
+  const isStudentExits = await Student.findOne({ id });
+  if (!isStudentExits) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Student does not exists');
+  }
   next();
 });
 
