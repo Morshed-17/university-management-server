@@ -9,7 +9,7 @@ import { TUser } from './user.interface';
 import { User } from './user.model';
 import { generateFacultyid, generateStudentId } from './user.utils';
 import mongoose from 'mongoose';
-import { TFaculty } from '../faculty/faculty.intertafce';
+import { TFaculty } from '../faculty/faculty.interface';
 import { AcademicDepartment } from '../academicDepartment/academicDepartment.model';
 import { Faculty } from '../faculty/faculty.model';
 

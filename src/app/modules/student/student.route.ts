@@ -7,10 +7,10 @@ const router = Router();
 
 // will call controller func
 
-router.get('/:studentId', StudentControllers.getSingleStudent);
-router.delete('/:studentId', StudentControllers.deleteStudent);
+router.get('/:id', StudentControllers.getSingleStudent);
+router.delete('/:id', StudentControllers.deleteStudent);
 router.patch(
-  '/:studentId',
+  '/:id',
   validateRequest(studentValidations.updateStudentValidationSchema),
   StudentControllers.updateStudent,
 );
