@@ -30,5 +30,5 @@ const createFaculty = catchAsync(async (req, res) => {
 
 export const UserControllers = {
   createStudent,
-  createFaculty
+  createFaculty,
 };

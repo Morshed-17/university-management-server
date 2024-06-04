@@ -1,10 +1,7 @@
-
 import { StudentServices } from './student.service';
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
-
-
 
 const getSingleStudent = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -39,7 +36,7 @@ const deleteStudent = catchAsync(async (req, res) => {
 });
 const updateStudent = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const {student} = req.body
+  const { student } = req.body;
   const result = await StudentServices.updateStudentIntoDB(id, student);
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -52,5 +49,5 @@ export const StudentControllers = {
   getAllStudents,
   getSingleStudent,
   deleteStudent,
-  updateStudent
+  updateStudent,
 };

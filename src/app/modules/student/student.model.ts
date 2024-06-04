@@ -198,7 +198,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
 // query middleware
 
 studentSchema.pre('find', function (next) {
-   this.find({ isDeleted: { $ne: true } });
+  this.find({ isDeleted: { $ne: true } });
   next();
 });
 studentSchema.pre('findOne', function (next) {

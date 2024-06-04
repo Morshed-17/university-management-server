@@ -49,7 +49,7 @@ export const generateFacultyid = async () => {
   let currentId = (0).toString();
   const lastFaculty = await findLastFaculty();
   if (lastFaculty) {
-    currentId = lastFaculty.split("-")[1];
+    currentId = lastFaculty.split('-')[1];
   }
   let increamentId = (Number(currentId) + 1).toString().padStart(4, '0');
   increamentId = `F-${increamentId}`;

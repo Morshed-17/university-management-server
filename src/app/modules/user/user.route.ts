@@ -5,7 +5,6 @@ import { studentValidations } from '../student/student.validation';
 import validateRequest from '../../middlewares/validateRequest';
 import { FacultyValidations } from '../faculty/faculty.validation';
 
-
 const router = Router();
 
 // will call controller func

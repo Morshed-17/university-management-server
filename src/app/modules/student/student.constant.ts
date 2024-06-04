@@ -1,1 +1,5 @@
-export const studentSearchAbleFields = ['email', 'name.firstName', 'presentAddress'];
+export const studentSearchAbleFields = [
+  'email',
+  'name.firstName',
+  'presentAddress',
+];

@@ -20,17 +20,17 @@ async function main() {
 main();
 
 process.on('unhandledRejection', () => {
-  console.log(`😈 unhandledRejection , shutting down ...`)
+  console.log(`😈 unhandledRejection , shutting down ...`);
   if (server) {
     server.close(() => {
       process.exit(1);
     });
   }
-  process.exit(1)
+  process.exit(1);
 });
 
 process.on('uncaughtException', () => {
-  console.log(`😈 uncaughtException , shutting down ...`)
+  console.log(`😈 uncaughtException , shutting down ...`);
 
-  process.exit(1)
-})
+  process.exit(1);
+});

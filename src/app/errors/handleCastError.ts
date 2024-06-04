@@ -19,4 +19,4 @@ const handleCastError = (
   };
 };
 
-export default handleCastError
+export default handleCastError;
