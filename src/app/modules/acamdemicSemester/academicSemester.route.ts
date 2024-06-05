@@ -12,7 +12,7 @@ router.post(
   '/create-academic-semester',
 
   validateRequest(
-    AcademicSemesterValidation.createAcademicSemsterValidationSchema,
+    AcademicSemesterValidation.createAcademicSemesterValidationSchema,
   ),
   AcademicSemesterControllers.createAcademicSemester,
 );
