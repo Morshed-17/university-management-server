@@ -21,15 +21,15 @@ router.get(
 
 router.patch(
   '/:id',
-  // validateRequest(
-  //   SemesterRegistrationValidations.upadateSemesterRegistrationValidationSchema,
-  // ),
-  // SemesterRegistrationControllers.updateSemesterRegistration,
+  validateRequest(
+    SemesterRegistrationValidations.updateSemesterRegistrationValidationSchema,
+  ),
+  SemesterRegistrationControllers.updateSemesterRegistration,
 );
 
 router.get(
   '/:id',
-  // SemesterRegistrationControllers.getSingleSemesterRegistration,
+  SemesterRegistrationControllers.getSingleSemesterRegistration,
 );
 
 router.delete(
@@ -37,6 +37,6 @@ router.delete(
   // SemesterRegistrationControllers.deleteSemesterRegistration,
 );
 
-// router.get('/', SemesterRegistrationControllers.getAllSemesterRegistrations);
+router.get('/', SemesterRegistrationControllers.getAllSemesterRegistrations);
 
 export const semesterRegistrationRoutes = router;
