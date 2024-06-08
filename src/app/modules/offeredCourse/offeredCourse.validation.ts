@@ -25,25 +25,39 @@ const createOfferedCourseValidationSchema = z.object({
       startTime: timeStringSchema, // HH: MM   00-23: 00-59
       endTime: timeStringSchema,
     })
-    .refine((body) => {
-      const date = '1970-01-01T';
-      const start = new Date(`${date}${body.startTime}:00`);
-      const end = new Date(`${date}${body.endTime}:00`);
-      return end > start;
-
-    }, {
-      message: "Start time should be before end time"
-    }),
+    .refine(
+      (body) => {
+        const date = '1970-01-01T';
+        const start = new Date(`${date}${body.startTime}:00`);
+        const end = new Date(`${date}${body.endTime}:00`);
+        return end > start;
+      },
+      {
+        message: 'Start time should be before end time',
+      },
+    ),
 });
 
 const updateOfferedCourseValidationSchema = z.object({
-  body: z.object({
-    faculty: z.string(),
-    maxCapacity: z.number(),
-    days: z.array(z.enum([...Days] as [string, ...string[]])),
-    startTime: timeStringSchema, // HH: MM   00-23: 00-59
-    endTime: timeStringSchema,
-  }),
+  body: z
+    .object({
+      faculty: z.string(),
+      maxCapacity: z.number(),
+      days: z.array(z.enum([...Days] as [string, ...string[]])),
+      startTime: timeStringSchema, // HH: MM   00-23: 00-59
+      endTime: timeStringSchema,
+    })
+    .refine(
+      (body) => {
+        const date = '1970-01-01T';
+        const start = new Date(`${date}${body.startTime}:00`);
+        const end = new Date(`${date}${body.endTime}:00`);
+        return end > start;
+      },
+      {
+        message: 'Start time should be before end time',
+      },
+    ),
 });
 
 export const OfferedCourseValidations = {

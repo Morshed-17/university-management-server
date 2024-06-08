@@ -34,7 +34,7 @@ router.get(
 
 router.delete(
   '/:id',
-  // SemesterRegistrationControllers.deleteSemesterRegistration,
+  SemesterRegistrationControllers.deleteSemesterRegistration,
 );
 
 router.get('/', SemesterRegistrationControllers.getAllSemesterRegistrations);
