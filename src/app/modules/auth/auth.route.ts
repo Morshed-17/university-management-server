@@ -1,18 +1,28 @@
+import express from 'express';
+import validateRequest from '../../middlewares/validateRequest';
+import { AuthValidation } from './auth.validation';
+import { AuthControllers } from './auth.controller';
+import auth from '../../middlewares/auth';
+import { USER_ROLE } from '../user/user.constant';
 
-import express from 'express'
-import validateRequest from '../../middlewares/validateRequest'
-import { AuthValidation } from './auth.validation'
-import { AuthControllers } from './auth.controller'
+const router = express.Router();
 
+router.post(
+  '/login',
+  validateRequest(AuthValidation.loginValidationSchema),
+  AuthControllers.loginUser,
+);
+router.post(
+  '/change-password',
+  validateRequest(AuthValidation.changePasswordValidationSchema),
+  auth(USER_ROLE.admin, USER_ROLE.faculty, USER_ROLE.student),
+  AuthControllers.changePassword,
+);
+router.post(
+  '/refresh-token',
+  validateRequest(AuthValidation.refreshTokenValidationSchema),
+ 
+  AuthControllers.refreshToken,
+);
 
-
-const router = express.Router()
-
-router.post('/login',
-    validateRequest(AuthValidation.loginValidationSchema),
-    AuthControllers.loginUser
-
-)
-
-
-export const AuthRoutes = router
+export const AuthRoutes = router;
