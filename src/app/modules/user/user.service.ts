@@ -19,8 +19,13 @@ import { AcademicDepartment } from '../academicDepartment/academicDepartment.mod
 import { Faculty } from '../faculty/faculty.model';
 import { Admin } from '../admin/admin.model';
 import { TAdmin } from '../admin/admin.interface';
+import { sendImageToCloudinary } from '../../utils/sendImageToCloudinary';
 
-const createStudentIntoDB = async (password: string, payload: TStudent) => {
+const createStudentIntoDB = async (
+  file: any,
+  password: string,
+  payload: TStudent,
+) => {
   // create a user object
   const userData: Partial<TUser> = {};
 
@@ -44,6 +49,11 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
     } else {
       throw new AppError(httpStatus.BAD_REQUEST, 'Addmission semester is null');
     }
+    const imageName = `${userData?.id}${payload?.name?.firstName}`;
+    const path = file.path;
+    // send image to cloudinary
+    const { secure_url } = await sendImageToCloudinary(imageName, path);
+
     // create a user (transaction-1)
     const newUser = await User.create([userData], { session });
     // create a student
@@ -54,6 +64,7 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
     // set id, _id as user
     payload.id = newUser[0].id;
     payload.user = newUser[0]._id; // reference _id
+    payload.profileImg = secure_url;
 
     // create a user (transaction-2)
     const newStudent = await Student.create([payload], { session });
@@ -178,16 +189,17 @@ const getMe = async (userId: string, role: string) => {
   return result;
 };
 
-const changeStatus = async (id: string, payload: {status: string}) => {
-
-  const result = await User.findOneAndUpdate({_id:id}, payload, {new: true})
-  return result
-}
+const changeStatus = async (id: string, payload: { status: string }) => {
+  const result = await User.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+  return result;
+};
 
 export const UserServices = {
   createStudentIntoDB,
   createFacultyIntoDB,
   createAdminIntoDB,
   getMe,
-  changeStatus
+  changeStatus,
 };
