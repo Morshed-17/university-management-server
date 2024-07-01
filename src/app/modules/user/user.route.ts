@@ -7,6 +7,7 @@ import { FacultyValidations } from '../faculty/faculty.validation';
 import { AdminValidations } from '../admin/admin.validation';
 import auth from '../../middlewares/auth';
 import { USER_ROLE } from './user.constant';
+import { UserValidation } from './user.validation';
 
 const router = Router();
 
@@ -19,14 +20,24 @@ router.post(
 );
 router.post(
   '/create-faculty',
+  auth(USER_ROLE.admin),
   validateRequest(FacultyValidations.createFacultyValidationSchema),
   UserControllers.createFaculty,
 );
 router.post(
   '/create-admin',
+  // auth(USER_ROLE.admin),
   validateRequest(AdminValidations.createAdminValidationSchema),
-  UserControllers.createAdmin
-  
+  UserControllers.createAdmin,
 );
+router.post(
+  '/change-status/:id',
+  // auth("admin"),
+  validateRequest(UserValidation.changeStatusValidationSchema),
+  UserControllers.changeStatus,
+);
+
+
+router.get('/me', auth('student', 'faculty', 'admin'), UserControllers.getMe);
 
 export const UserRoutes = router;

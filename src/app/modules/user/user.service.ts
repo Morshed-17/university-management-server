@@ -8,7 +8,11 @@ import { Student } from '../student/student.model';
 import { TUser } from './user.interface';
 
 import { User } from './user.model';
-import { generateAdminId, generateFacultyid, generateStudentId } from './user.utils';
+import {
+  generateAdminId,
+  generateFacultyid,
+  generateStudentId,
+} from './user.utils';
 import mongoose from 'mongoose';
 import { TFaculty } from '../faculty/faculty.interface';
 import { AcademicDepartment } from '../academicDepartment/academicDepartment.model';
@@ -23,7 +27,7 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
   //   if password is not given, use default password
   userData.password = password || (config.default_pass as string);
   userData.role = 'student';
-  userData.email = payload.email
+  userData.email = payload.email;
 
   // find academic semester info
 
@@ -73,7 +77,7 @@ const createFacultyIntoDB = async (password: string, payload: TFaculty) => {
 
   userData.password = password || config.default_pass;
   userData.role = 'faculty';
-  userData.email = payload.email
+  userData.email = payload.email;
 
   const academicDepartment = await AcademicDepartment.findById(
     payload.academicDepartment,
@@ -121,7 +125,7 @@ const createAdminIntoDB = async (password: string, payload: TAdmin) => {
   //set admin role
   userData.role = 'admin';
   // set admin email
-  userData.email = payload.email
+  userData.email = payload.email;
 
   const session = await mongoose.startSession();
 
@@ -159,8 +163,31 @@ const createAdminIntoDB = async (password: string, payload: TAdmin) => {
   }
 };
 
+const getMe = async (userId: string, role: string) => {
+  let result = null;
+  if (role === 'student') {
+    result = await Student.findOne({ id: userId }).populate('user');
+  }
+  if (role === 'admin') {
+    result = await Admin.findOne({ id: userId }).populate('user');
+  }
+  if (role === 'faculty') {
+    result = await Faculty.findOne({ id: userId }).populate('user');
+  }
+
+  return result;
+};
+
+const changeStatus = async (id: string, payload: {status: string}) => {
+
+  const result = await User.findOneAndUpdate({_id:id}, payload, {new: true})
+  return result
+}
+
 export const UserServices = {
   createStudentIntoDB,
   createFacultyIntoDB,
-  createAdminIntoDB
+  createAdminIntoDB,
+  getMe,
+  changeStatus
 };

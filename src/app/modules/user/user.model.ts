@@ -4,18 +4,19 @@ import config from '../../config';
 import bcrypt from 'bcrypt';
 import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
+import { UserStatus } from './user.constant';
 
 const userSchema = new Schema<TUser, UserModel>(
   {
     id: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     email: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     password: {
       type: String,
@@ -36,7 +37,7 @@ const userSchema = new Schema<TUser, UserModel>(
 
     status: {
       type: String,
-      enum: ['in-progress', 'blocked'],
+      enum: UserStatus,
       default: 'in-progress',
     },
     isDeleted: {
@@ -61,8 +62,9 @@ userSchema.pre('save', async function (next) {
 });
 
 userSchema.pre('findOneAndUpdate', async function name(next) {
-  const { id } = this.getQuery();
-  const isUserExits = await User.findOne({ id });
+  const { _id } = this.getQuery();
+
+  const isUserExits = await User.findById(_id);
   if (!isUserExits) {
     throw new AppError(httpStatus.BAD_REQUEST, 'User does not exists');
   }
