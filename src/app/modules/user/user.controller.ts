@@ -5,8 +5,12 @@ import catchAsync from '../../utils/catchAsync';
 
 const createStudent = catchAsync(async (req, res) => {
   const { password, student: studentData } = req.body;
-  
-  const result = await UserServices.createStudentIntoDB(req.file,password, studentData);
+
+  const result = await UserServices.createStudentIntoDB(
+    req.file,
+    password,
+    studentData,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -16,9 +20,13 @@ const createStudent = catchAsync(async (req, res) => {
   });
 });
 const createFaculty = catchAsync(async (req, res) => {
-  const { password, faculty } = req.body;
+  const { password, faculty: facultyData } = req.body;
 
-  const result = await UserServices.createFacultyIntoDB(password, faculty);
+  const result = await UserServices.createFacultyIntoDB(
+    req.file,
+    password,
+    facultyData,
+  );
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -28,10 +36,13 @@ const createFaculty = catchAsync(async (req, res) => {
   });
 });
 const createAdmin = catchAsync(async (req, res) => {
-  const { password, admin } = req.body;
+  const { password, admin: adminData } = req.body;
 
-  const result = await UserServices.createAdminIntoDB(password, admin);
-
+  const result = await UserServices.createAdminIntoDB(
+    req.file,
+    password,
+    adminData,
+  );
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -40,8 +51,7 @@ const createAdmin = catchAsync(async (req, res) => {
   });
 });
 const getMe = catchAsync(async (req, res) => {
-
-  const {userId, role} = req.user
+  const { userId, role } = req.user;
   const result = await UserServices.getMe(userId, role);
 
   sendResponse(res, {
@@ -52,8 +62,7 @@ const getMe = catchAsync(async (req, res) => {
   });
 });
 const changeStatus = catchAsync(async (req, res) => {
-
-  const id = req.params.id
+  const id = req.params.id;
 
   const result = await UserServices.changeStatus(id, req.body);
 
@@ -70,5 +79,5 @@ export const UserControllers = {
   createFaculty,
   createAdmin,
   getMe,
-  changeStatus
+  changeStatus,
 };
