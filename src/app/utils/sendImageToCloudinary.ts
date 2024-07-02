@@ -14,7 +14,7 @@ export const sendImageToCloudinary = (iamgeName: string, path: string) => {
     cloudinary.uploader.upload(
       path,
       {
-        public_id: iamgeName,
+        public_id: iamgeName.trim(),
       },
       function (error, result) {
         if (error) {

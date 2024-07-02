@@ -76,10 +76,10 @@ const createStudentIntoDB = async (
     await session.commitTransaction();
     await session.endSession();
     return newStudent;
-  } catch (err) {
+  } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();
-    throw new Error('Failed to create student');
+    throw new Error(err);
   }
 };
 
@@ -130,10 +130,10 @@ const createFacultyIntoDB = async (
     await session.commitTransaction();
     await session.endSession();
     return newFaculty;
-  } catch (err) {
+  } catch (err: any) {
     await session.abortTransaction();
     await session.endSession();
-    throw new AppError(httpStatus.BAD_REQUEST, 'Failed to create faculty');
+    throw new Error(err);
   }
 };
 const createAdminIntoDB = async (
@@ -162,7 +162,6 @@ const createAdminIntoDB = async (
     const path = file?.path;
     //send image to cloudinary
     const { secure_url } = await sendImageToCloudinary(imageName, path);
-
 
     // create a user (transaction-1)
     const newUser = await User.create([userData], { session });
